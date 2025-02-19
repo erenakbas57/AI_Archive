@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Category, Tag, User, Product } from "./models";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export interface Store {
   categories: Category[];
@@ -46,8 +47,10 @@ export const useStore = create<Store>((set, get) => ({
   selectedCategories: [],
   selectedTags: [],
 
+
+
   getCategories: async () => {
-    const response = await fetch("/api/category", {
+    const response = await fetch(`${API_URL}/category`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },
@@ -57,7 +60,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   addCategory: async (category) => {
-    const response = await fetch("/api/category", {
+    const response = await fetch(`${API_URL}/category`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -70,7 +73,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   updateCategory: async (category) => {
-    const response = await fetch(`/api/category/${category.id}`, {
+    const response = await fetch(`${API_URL}/category/${category.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +90,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   deleteCategory: async (id) => {
-    await fetch(`/api/category/${id}`, {
+    await fetch(`${API_URL}/category/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
@@ -99,8 +102,12 @@ export const useStore = create<Store>((set, get) => ({
     }));
   },
 
+
+
+
+
   getTags: async () => {
-    const response = await fetch("/api/tag", {
+    const response = await fetch(`${API_URL}/tag`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },
@@ -111,7 +118,7 @@ export const useStore = create<Store>((set, get) => ({
 
   addTag: async (tag) => {
     console.log("değer: ", tag);
-    const response = await fetch("/api/tag", {
+    const response = await fetch(`${API_URL}/tag`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -124,7 +131,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   updateTag: async (tag) => {
-    const response = await fetch(`/api/tag/${tag.id}`, {
+    const response = await fetch(`${API_URL}/tag/${tag.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -139,7 +146,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   deleteTag: async (id) => {
-    await fetch(`/api/tag/${id}`, {
+    await fetch(`${API_URL}/tag/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
@@ -152,7 +159,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   getUsers: async () => {
-    const response = await fetch("/api/user", {
+    const response = await fetch(`${API_URL}/user`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },
@@ -163,7 +170,7 @@ export const useStore = create<Store>((set, get) => ({
 
   addUser: async (user) => {
     console.log("addUser değer: ", user);
-    const response = await fetch("/api/user", {
+    const response = await fetch(`${API_URL}/user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -176,7 +183,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   updateUser: async (user) => {
-    const response = await fetch(`/api/user/${user.id}`, {
+    const response = await fetch(`${API_URL}/user/${user.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -191,7 +198,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   deleteUser: async (id) => {
-    await fetch(`/api/user/${id}`, {
+    await fetch(`${API_URL}/user/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
@@ -203,7 +210,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   getProducts: async () => {
-    const response = await fetch("/api/product", {
+    const response = await fetch(`${API_URL}/product`, {
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },
@@ -213,7 +220,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   addProduct: async (product) => {
-    const response = await fetch("/api/product", {
+    const response = await fetch(`${API_URL}/product`, {
       method: "POST",
       headers: { "Content-Type": "application/json" ,
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
@@ -225,7 +232,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   updateProduct: async (product) => {
-    const response = await fetch(`/api/product/${product.id}`, {
+    const response = await fetch(`${API_URL}/product/${product.id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" ,
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
@@ -241,7 +248,7 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   deleteProduct: async (id) => {
-    await fetch(`/api/product/${id}`, { method: "DELETE" ,
+    await fetch(`${API_URL}/product/${id}`, { method: "DELETE" ,
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },
