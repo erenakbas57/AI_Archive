@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Fotoğraf",
+    "icon": "📷"
+  },
+  {
+    "name": "Ses",
+    "icon": "🔊"
+  },
+  {
+    "name": "Video",
+    "icon": "📹"
+  },
+  {
+    "name": "Yazı",
+    "icon": "📝"
+  },
+  {
+    "name": "Kodlama",
+    "icon": "💻"
+  },
+  {
+    "name": "İşletme",
+    "icon": "🏢"
+  },
+  {
+    "name": "Diğer",
+    "icon": "❓"
+  },
+  {
+    "name": "Veri Analizi",
+    "icon": "📊"
+  },
+  {
+    "name": "Asistan",
+    "icon": "🤖"
+  },
+  {
+    "name": "Sosyal Medya",
+    "icon": "📱"
+  }
+]
