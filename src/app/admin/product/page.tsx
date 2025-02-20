@@ -12,7 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Plus, Search, Edit, Trash2 } from "lucide-react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -31,16 +31,16 @@ import {
 import { Badge } from "@/components/ui/badge";
 
 import { useStore } from "@/lib/store";
-
-import { Category, Product, Tag } from "@/lib/models";
-import { TagSelector } from "@/components/my/ui/selectDropdown";
+import ReactSelect from "react-select";
+import makeAnimated from "react-select/animated";
+const animatedComponents = makeAnimated();
+import {  Product, Tag } from "@/lib/models";
 
 export default function ProductPage() {
   const {
     categories,
     tags,
     products,
-    getProducts,
     addProduct,
     deleteProduct,
     updateProduct,
@@ -58,8 +58,9 @@ export default function ProductPage() {
     features: "",
     description: "",
     categoryId: "",
-    tag: [],
+    tagId: [],
   }); // Yeni kategori bilgisini tutan state
+
   const [updatedProduct, setUpdatedProduct] = useState<Product>({
     id: "",
     name: "",
@@ -71,12 +72,14 @@ export default function ProductPage() {
     features: "",
     description: "",
     categoryId: "",
-    tag: [],
+    tagId: [],
   });
   const [editingProductId, setEditingProductId] = useState<string | null>(null);
+  const [selectedTags, setSelectedTags] = useState<{ value: string; label: string }[]>([]);
 
-  const openEditDialog = (product: any) => {
+  const openEditDialog = (product: Product) => {
     setEditingProductId(product.id);
+
     setUpdatedProduct({
       id: product.id,
       name: product.name,
@@ -88,8 +91,9 @@ export default function ProductPage() {
       features: product.features,
       description: product.description,
       categoryId: product.categoryId,
-      tag: product.tag,
+      tagId: product.tagId,
     });
+    setSelectedTags(formatTagsForReactSelectWithChoose(product.tagId || []));
     setOpen(true);
   };
 
@@ -123,6 +127,22 @@ export default function ProductPage() {
       tag: [],
     });
   };
+
+  const formatTagsForReactSelectWithChoose = (tags: string[]) => {
+    return options
+      .filter((tag) => tags.includes(tag.value))
+      .map((tag) => ({ value: tag.value, label: tag.label }));
+  };
+
+  const formatTagsForReactSelect = (tags: Tag[]) => {
+    return tags.map((tag) => ({
+      value: tag.id, // id'si
+      label: tag.name, // ismi
+    }));
+  };
+
+  const options = formatTagsForReactSelect(tags); // tags dizisini formatla
+
 
   return (
     <div className="max-w-7xl mx-auto">
@@ -180,16 +200,8 @@ export default function ProductPage() {
                     </TableCell>
                     <TableCell>{product.freeCredits}</TableCell>
                     <TableCell>
-                      {product.tag?.length ? (
-                        product.tag.map((tagId) => {
-                          const tag = tags.find((t) => t.id === tagId.id);
-                          return tag ? (
-                            <Badge key={tagId.id}>{tag.name}</Badge>
-                          ) : null;
-                        })
-                      ) : (
-                        <Badge>Etiket Yok</Badge>
-                      )}
+                        <Badge>{product.tagId?.length}</Badge>
+                     
                     </TableCell>
 
                     <TableCell className="text-right">
@@ -361,24 +373,26 @@ export default function ProductPage() {
               </SelectContent>
             </Select>
 
+
+
             {/* Etiket Seçimi */}
-            <TagSelector
-              tags={tags}
-              value={
-                editingProductId
-                  ? updatedProduct.tagId || []
-                  : newProduct.tagId || []
-              } // undefined yerine boş dizi
-              onChange={(selectedTagIds) =>
-                editingProductId
-                  ? setUpdatedProduct({
-                      ...updatedProduct,
-                      tagId: selectedTagIds,
-                    })
-                  : setNewProduct({ ...newProduct, tagId: selectedTagIds })
-              }
-              placeholder="Etiket Seç"
-            />
+            <ReactSelect
+                closeMenuOnSelect={false}
+                components={animatedComponents}
+                defaultValue={selectedTags}
+                isMulti
+                options={options} 
+                onChange={(selectedOptions) => {
+                  const newTagIds = selectedOptions.map((option) => option.value);
+              
+                  if (editingProductId) {
+                    setUpdatedProduct({ ...updatedProduct, tagId: newTagIds });
+                  } else {
+                    setNewProduct({ ...newProduct, tagId: newTagIds });
+                  }
+                }} 
+              />
+  
 
             {/* Ürün Açıklaması */}
             <Textarea

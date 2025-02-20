@@ -22,6 +22,7 @@ export async function PATCH(
   req: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+
   try {
     const {
       name,
@@ -48,14 +49,19 @@ export async function PATCH(
         features,
         description,
         categoryId,
-        tag: { connect: tagId.map((id: string) => ({ id })) },
+        tag: {
+          set: [], // Önce tüm ilişkileri kaldır
+          connect: tagId.map((id: string) => ({ id })), // Sonra yenilerini ekle
+        }
+        
       },
     });
 
     return NextResponse.json(updatedProduct);
   } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Beklenmedik bir hata oluştu.";
     return NextResponse.json(
-      { error: "kategori güncellenemedi!" },
+      { error: `Kategori silinemedi! Hata: ${errorMessage}` },
       { status: 500 }
     );
   }

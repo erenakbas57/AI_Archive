@@ -12,11 +12,16 @@ import ProductCard from "@/components/my/ProductCard"; // Ürün kartını içe 
 import CategoryCard from "@/components/my/CategoryCard";
 import TagCard from "@/components/my/TagCard";
 import { useStore } from "@/lib/store";
+import Link from "next/link";
+import Image from "next/image";
+
+import { Tag, Book } from "lucide-react";
 
 const Home: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { getCategories, getTags, getProducts,searchText, setSearchText  } = useStore();
+  const { getCategories, getTags, getProducts, searchText, setSearchText } =
+    useStore();
 
   useEffect(() => {
     getCategories();
@@ -24,13 +29,19 @@ const Home: React.FC = () => {
     getProducts();
   }, []);
 
-
   return (
     <div className="flex min-h-screen bg-gray-50">
       {/* Mobile Header */}
       <div className="lg:hidden fixed top-0 left-0 right-0 z-20 bg-white px-4 py-3">
         <div className="flex items-center justify-between">
-          <h1 className="text-xl font-semibold">AI Tools</h1>
+          <Link href="/" className="text-xl font-semibold ">
+            <Image
+              src="/image/logo/512.png" // Başında "public" yok, doğrudan erişiliyor
+              width={48}
+              height={48}
+              alt="Site Logo"
+            />
+          </Link>
 
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
@@ -61,10 +72,16 @@ const Home: React.FC = () => {
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full"}
         `}
       >
-        <div className="p-6 pt-8 lg:pt-6 h-full overflow-y-auto">
-          <h1 className="text-2xl font-semibold mb-6 hidden lg:block">
-            AI Araçları
-          </h1>
+        <div className="p-6 pt-8 lg:pt-6 h-full overflow-y-auto ">
+          <Link href="/" className="text-xl font-semibold">
+            <Image
+              src="/image/logo/512.png" // Başında "public" yok, doğrudan erişiliyor
+              width={72}
+              height={72}
+              alt="Site Logo"
+              className="mb-2"
+            />
+          </Link>
 
           {/* Arama kısmı */}
           <div className="relative mb-6">
@@ -82,14 +99,14 @@ const Home: React.FC = () => {
           <Accordion type="single" collapsible className="mb-6">
             <AccordionItem value="tags">
               <AccordionTrigger className="w-full py-2 px-4 text-center border rounded-lg hover:bg-gray-50 hover:no-underline">
-                Etiket Seç
+                <Tag></Tag>Etiketler
               </AccordionTrigger>
               <TagCard />
             </AccordionItem>
           </Accordion>
 
-          <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider mb-4">
-            Kategoriler
+          <h2 className="text-sm font-medium flex gap-2  text-black-500 uppercase tracking-wider mb-4">
+            <Book/> Kategoriler
           </h2>
           <CategoryCard />
         </div>

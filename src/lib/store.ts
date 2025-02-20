@@ -211,6 +211,7 @@ export const useStore = create<Store>((set, get) => ({
 
   getProducts: async () => {
     const response = await fetch(`${API_URL}/product`, {
+      method: "GET",
       headers: {
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_API_SECRET_TOKEN}`,
       },

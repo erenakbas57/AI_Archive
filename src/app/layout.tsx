@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ['latin'] });
 export const metadata: Metadata = {
   title: 'AI Tools Marketplace',
   description: 'A marketplace for AI tools',
+  icons: {
+    icon: '/image/logo/favicon.ico',
+  }
 };
 
 
