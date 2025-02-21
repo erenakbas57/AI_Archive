@@ -57,7 +57,6 @@ export default function TagsPage() {
     if (tags.length === 0) {
       getTags();
     }
-    console.log("kategori sayfasında get çalıştı");
   }, []);
 
   return (

@@ -1,4 +1,7 @@
 export default function Loading() {
-    return <div className="text-center text-gray-500">Yükleniyor...</div>;
-  }
-  
+  return (
+    <div className="flex justify-center items-center h-screen text-lg font-semibold">
+      Sayfa yükleniyor...
+    </div>
+  );
+}

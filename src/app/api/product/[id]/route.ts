@@ -2,19 +2,26 @@ import { prisma } from "@/lib/database";
 import { NextResponse } from "next/server";
 
 // ✅ GET: Belirli bir kullanıcıyı getir
-// export async function GET(req: Request, { params }: { params: { id: string } }) {
-//   try {
-//     const category = await prisma.category.findUnique({
-//       where: { id: params.id },
-//     });
+export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+  try {
+    
+    const { id } = await params;
+    const product = await prisma.product.findFirst({
+      where: {
+        OR: [
+          { id: id }, 
+          { url: id } // params.id burada hem id hem de url olabilir
+        ],
+      },
+    });
 
-//     if (!category) return NextResponse.json({ error: "kategori bulunamadı!" }, { status: 404 });
+    if (!product) return NextResponse.json({ error: "kategori bulunamadı!" }, { status: 404 });
 
-//     return NextResponse.json(category);
-//   } catch (error) {
-//     return NextResponse.json({ error: "kategori getirilemedi!" }, { status: 500 });
-//   }
-// }
+    return NextResponse.json(product);
+  } catch (error) {
+    return NextResponse.json({ error: "kategori getirilemedi!" }, { status: 500 });
+  }
+}
 
 // ✅ PATCH: Kullanıcıyı güncelle
 

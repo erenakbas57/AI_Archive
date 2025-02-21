@@ -312,7 +312,7 @@ export default function ProductPage() {
                   : newProduct.freeCredits
               }
               onChange={(e) => {
-                const value = parseFloat(e.target.value) || 0; // Sayıya dönüştür ve NaN için 0 değerini kullan
+                const value = parseFloat(e.target.value) || 0; 
                 if (editingProductId) {
                   setUpdatedProduct({
                     ...updatedProduct,

@@ -15,12 +15,6 @@ export default function DashboardPage() {
     { title: "Etiketler", value: tags.length.toString(), icon: Hash},
   ];
 
-  const recentActivity = [
-    { tool: "AI Assistant Pro", action: "New tool added", time: "2 hours ago" },
-    { tool: "DeepSeek", action: "Updated description", time: "4 hours ago" },
-    { tool: "CustomGPT.ai", action: "Rating updated", time: "6 hours ago" },
-  ];
-
   return (
     <div>
       <div className="flex justify-between items-center mb-8">
@@ -47,29 +41,6 @@ export default function DashboardPage() {
           </Card>
         ))}
       </div>
-
-      {/* Recent Activity */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Son İşlemler</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {recentActivity.map((activity, index) => (
-              <div
-                key={index}
-                className="flex items-center justify-between py-3"
-              >
-                <div>
-                  <p className="font-medium">{activity.tool}</p>
-                  <p className="text-sm text-gray-500">{activity.action}</p>
-                </div>
-                <span className="text-sm text-gray-500">{activity.time}</span>
-              </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
     </div>
   );
 }

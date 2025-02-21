@@ -8,7 +8,7 @@ type Props = {
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
   const url = ( await params).url; // await kullanmaya gerek yok
   return {
-    title: `Sayfa: ${url}`,
+    title: `${url}`,
     description: "Bu, dinamik olarak oluşturulan bir sayfanın açıklamasıdır.",
   };
 };

@@ -17,7 +17,6 @@ export async function GET() {
 // ✅ POST: Yeni kullanıcı ekle
 export async function POST(req: Request) {
   try {
-    console.log("API isteği alındı"); // Bu satırı ekleyin
     const {
       name,
       url,
@@ -30,11 +29,6 @@ export async function POST(req: Request) {
       categoryId,
       tagId,
     } = await req.json();
-    console.log("req.json(): ", name, url, image, link, freeCredits, 
-      freeCreditRenewal, features, description, 
-      categoryId); // Bu satırı ekleyin
-      console.log("categoryId: ", categoryId); // Bu sat
-    console.log("tagId: ", tagId); // Bu satırı ekleyin
 
     const product = await prisma.product.create({
       data: {

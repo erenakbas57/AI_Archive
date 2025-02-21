@@ -14,49 +14,41 @@ function ProductPage({ params }: { params: { url: string } }) {
   const productTags = tags.filter((tag) => product?.tagId?.includes(tag.id));
 
   useEffect(() => {
-    console.log("değer", product);
     if (!product) {
-      console.log("Ürün store'da bulunamadı, API'den yükleniyor...");
-      getProducts(); // Eğer ürün yoksa tüm ürünleri yükle
-      getCategories(); // Eğer ürün yoksa tüm kategorileri y
-      getTags(); // Eğer ürün yoksa tüm etiketleri yükle
+      getProducts();
+      getCategories();
+      getTags();
     }
   }, []);
 
-  if (!product) {
-    return (
-      <div className="text-center py-10 text-gray-500">Ürün yükleniyor.</div>
-    );
-  }
-
   const similarProducts = products
-    .filter((p) => p.categoryId === product.categoryId && p.url !== url)
+    .filter((p) => p.categoryId === product?.categoryId && p.url !== url)
     .slice(0, 3);
 
   return (
-    <div className="max-w-5xl mx-auto p-6 flex">
+    <div className="max-w-5xl mx-auto p-6 flex flex-col lg:flex-row gap-6">
       {/* Sol Taraf - Ürün Bilgileri */}
-      <div className="flex-1 pr-6">
+      <div className="flex-1">
         <article className="prose lg:prose-xl">
           <div className="text-center">
-            <h1 className="text-4xl font-semibold">{product.name}</h1>
+            <h1 className="text-4xl font-semibold">{product?.name}</h1>
           </div>
-          <div className="flex items-start gap-4 mt-6">
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-4 mt-6">
             <Image
-              src={product.image || "/image/chatgpt.png"}
-              alt={product.name}
+              src={product?.image || "/image/chatgpt.png"}
+              alt="Product Image"
               width={200}
               height={200}
               className="rounded-lg shadow-md border"
             />
-            <div className="flex flex-col justify-center">
+            <div className="flex flex-col justify-center text-center md:text-left">
               <p>Kategori</p>
               <div className="text-black-500 text-lg font-semibold">
                 {category?.icon || ""}
                 {category?.name || ""}
               </div>
               <p>Etiketler</p>
-              <div className="gap-2">
+              <div className="flex flex-wrap justify-center md:justify-start gap-2">
                 {productTags.map((tag) => (
                   <Badge
                     key={tag.id}
@@ -68,17 +60,16 @@ function ProductPage({ params }: { params: { url: string } }) {
               </div>
             </div>
           </div>
-
-          <p className="text-lg text-gray-700 mt-6">{product.description}</p>
+          <p className="text-lg text-gray-700 mt-6">{product?.description}</p>
           <div className="mt-6">
             <h2 className="text-2xl font-semibold">Öne Çıkan Özellikler</h2>
             <ul className="list-disc list-inside mt-2">
-              <li className="text-gray-600">{product.features}</li>
+              <li className="text-gray-600">{product?.features}</li>
             </ul>
           </div>
-          <div className="mt-6 flex justify-between items-center border-t pt-4">
+          <div className="mt-6 flex justify-center md:justify-between items-center border-t pt-4">
             <Link
-              href={product.url}
+              href={product ? product.url : "/"}
               target="_blank"
               className="px-6 py-3 text-white bg-blue-600 rounded-lg hover:bg-blue-700 font-medium"
             >
@@ -89,8 +80,8 @@ function ProductPage({ params }: { params: { url: string } }) {
       </div>
 
       {/* Sağ Taraf - Benzer Siteler Sekmesi */}
-      <aside className="w-1/3 pl-6">
-        <h3 className="text-2xl font-semibold mb-4">Benzer Siteler</h3>
+      <aside className="w-full lg:w-1/3">
+        <h3 className="text-2xl font-semibold mb-4 text-center lg:text-left">Benzer Siteler</h3>
         <div className="space-y-4">
           {similarProducts.map((similarProduct) => (
             <Link
@@ -107,11 +98,7 @@ function ProductPage({ params }: { params: { url: string } }) {
               />
               <div>
                 <h4 className="text-lg font-semibold">{similarProduct.name}</h4>
-                <p
-                  className="text-blue-500 text-sm"
-                >
-                  İncele
-                </p>
+                <p className="text-blue-500 text-sm">İncele</p>
               </div>
             </Link>
           ))}

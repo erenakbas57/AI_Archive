@@ -117,7 +117,6 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   addTag: async (tag) => {
-    console.log("değer: ", tag);
     const response = await fetch(`${API_URL}/tag`, {
       method: "POST",
       headers: {
@@ -169,7 +168,6 @@ export const useStore = create<Store>((set, get) => ({
   },
 
   addUser: async (user) => {
-    console.log("addUser değer: ", user);
     const response = await fetch(`${API_URL}/user`, {
       method: "POST",
       headers: {

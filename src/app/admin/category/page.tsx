@@ -66,7 +66,6 @@ export default function CategoryPage() {
     if (categories.length === 0) {
       getCategories();
     }
-    console.log("kategori sayfasında get çalıştı");
   }, []);
 
   return (
