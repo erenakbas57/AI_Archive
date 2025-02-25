@@ -20,13 +20,24 @@ import { Tag, Book } from "lucide-react";
 const Home: React.FC = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const { getCategories, getTags, getProducts, searchText, setSearchText } =
+  const { getCategories, getTags, getProducts, searchText, setSearchText, setCategories, setTags, setProducts } =
     useStore();
 
   useEffect(() => {
-    getCategories();
-    getTags();
-    getProducts();
+    console.log("Home useEffect");
+    const fetchData = async () => {
+      try {
+        const [categories, tags, products] = await Promise.all([
+          getCategories(),
+          getTags(),
+          getProducts(),
+        ]);
+        console.log(categories, tags, products);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData(); // async fonksiyonu çağır
   }, []);
 
   return (

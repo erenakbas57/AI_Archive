@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { Category, Tag, User, Product } from "./models";
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { createJSONStorage, persist } from 'zustand/middleware';
 
 export interface Store {
   categories: Category[];
@@ -35,9 +36,16 @@ export interface Store {
   selectCategory: (category: Category) => void;
   selectTag: (tag: Tag) => void;
   setSearchText: (searchText: string) => void;
+
+  setProducts: (products: Product[]) => void;
+  setCategories: (categories: Category[]) => void;
+  setTags: (tags: Tag[]) => void;
+  setUsers: (users: User[]) => void;
 }
 
-export const useStore = create<Store>((set, get) => ({
+export const useStore = create<Store>()(
+  persist(
+  (set, get) => ({
   categories: [],
   tags: [],
   users: [],
@@ -47,6 +55,10 @@ export const useStore = create<Store>((set, get) => ({
   selectedCategories: [],
   selectedTags: [],
 
+  setProducts: (products) => set({ products }),
+  setCategories: (categories) => set({ categories }),
+  setTags: (tags) => set({ tags }),
+  setUsers: (users) => set({ users }),
 
 
   getCategories: async () => {
@@ -57,6 +69,7 @@ export const useStore = create<Store>((set, get) => ({
     });
     const categories = await response.json();
     set({ categories });
+    return categories;
   },
 
   addCategory: async (category) => {
@@ -114,6 +127,7 @@ export const useStore = create<Store>((set, get) => ({
     });
     const tags = await response.json();
     set({ tags });
+    return tags;
   },
 
   addTag: async (tag) => {
@@ -165,6 +179,7 @@ export const useStore = create<Store>((set, get) => ({
     });
     const users = await response.json();
     set({ users });
+    return users;
   },
 
   addUser: async (user) => {
@@ -216,6 +231,7 @@ export const useStore = create<Store>((set, get) => ({
     });
     const products = await response.json();
     set({ products });
+    return products;
   },
 
   addProduct: async (product) => {
@@ -283,4 +299,10 @@ export const useStore = create<Store>((set, get) => ({
     set({ searchText });
   },
   
-}));
+  }),
+  {
+    name: 'storage', // name of the item in the storage (must be unique)
+    storage: createJSONStorage(() => localStorage), // (optional) by default, 'localStorage' is used
+  },
+  ),
+);

@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import Image from "next/image";
 import {use} from "react"
 import { notFound } from "next/navigation";
+
+
 type Props = {
   params: Promise<{ url: string }>; // Burada Promise olmamalı
 };
